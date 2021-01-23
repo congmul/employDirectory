@@ -27,7 +27,7 @@ const TableBody = (props) => {
                     <td className="align-middle">{object.name.first} {object.name.last}</td>
                     <td className="align-middle">{object.cell}</td>
                     <td className="align-middle">{object.email}</td>
-                    <td className="align-middle">{object.dob.date}</td>
+                    <td className="align-middle">{new Date(Date.parse(object.dob.date)).toLocaleDateString()}</td>
                 </tr>
             )}
         </tbody>
