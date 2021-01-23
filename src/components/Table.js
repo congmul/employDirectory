@@ -2,19 +2,21 @@ import React from 'react'
 
 const TableHeader = () => {
     return (
-        <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>DOB</th>
-        </tr>
+        <thead style={{fontWeight:"700"}}>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>DOB</th>
+            </tr>
+        </thead>
     )
 }
 
 const TableBody = (props) => {
     return (
-        <tbody>
+        <tbody className="">
             <tr>
                 <td>Image</td>
                 <td>Jim Hudson</td>
@@ -36,7 +38,7 @@ const TableBody = (props) => {
 
 export default function Table() {
     return (
-        <table>
+        <table className="table table-hover" style={{"textAlign":"center"}}>
             <TableHeader />
             <TableBody />
         </table>
