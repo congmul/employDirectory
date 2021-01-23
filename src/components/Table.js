@@ -1,11 +1,17 @@
 import React from 'react'
 
-const TableHeader = () => {
+function sortingFunc(props) {
+    console.log(props.members);
+    console.log(props.members.sort((a, b) => (a.email > b.email) ? 1 : -1));
+}
+
+
+const TableHeader = (props) => {
     return (
         <thead style={{ fontWeight: "700" }}>
             <tr>
                 <th>Image</th>
-                <th>Name</th>
+                <th><button onClick={ () => sortingFunc(props) }>Name</button></th>
                 <th>Phone</th>
                 <th>Email</th>
                 <th>DOB</th>
@@ -15,18 +21,18 @@ const TableHeader = () => {
 }
 
 const TableBody = (props) => {
-    console.log("props in Table Body");
-    console.log(props.members);
-    props.members.map(object => console.log(object))
+    // console.log("props in Table Body");
+    // console.log(props.members);
+    // props.members.map(object => console.log(object))
     
     return (
         <tbody>
             {props.members.map(object =>
-                <tr>
+                <tr key={object.id.value}>
                     <td className="align-middle"><img src={object.picture.medium} alt="profile" /></td>
                     <td className="align-middle">{object.name.first} {object.name.last}</td>
                     <td className="align-middle">{object.cell}</td>
-                    <td className="align-middle">{object.email}</td>
+                    <td className="align-middle"><a href={`mailto:${object.email}`}>{object.email}</a></td>
                     <td className="align-middle">{new Date(Date.parse(object.dob.date)).toLocaleDateString()}</td>
                 </tr>
             )}
@@ -45,7 +51,7 @@ class Table extends React.Component {
     }
 
     componentDidMount() {
-        fetch("https://randomuser.me/api/?results=50&nat=us")
+        fetch("https://randomuser.me/api/?results=5&nat=us")
             .then(res => res.json())
             .then((result) => {
                 console.log("result.results");
@@ -75,7 +81,7 @@ class Table extends React.Component {
             console.log(members);
             return (
                 <table className="table table-hover" style={{ "textAlign": "center" }}>
-                    <TableHeader />
+                    <TableHeader members={members} />
                     <TableBody members={members} />
                 </table>
             )
