@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import API from "../utils/API";
 
 function sortingFunc(props) {
     console.log(props.members);
@@ -51,22 +52,39 @@ class Table extends React.Component {
     }
 
     componentDidMount() {
-        fetch("https://randomuser.me/api/?results=5&nat=us")
-            .then(res => res.json())
-            .then((result) => {
-                console.log("result.results");
-                console.log(result.results);
+        API.search()
+            .then(res => {
+                console.log("Axios"); 
+                console.log(res.data.results);
                 this.setState({
                     isLoaded: true,
-                    members: result.results
+                    members: res.data.results
                 })
-            },
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error
-                    })
+            })
+            .catch(err => {
+                console.log(err)
+                this.setState({
+                    isLoaded: true,
+                    err
                 })
+            });
+
+        // fetch("https://randomuser.me/api/?results=5&nat=us")
+        //     .then(res => res.json())
+        //     .then((result) => {
+        //         // console.log("result.results");
+        //         // console.log(result.results);
+        //         this.setState({
+        //             isLoaded: true,
+        //             members: result.results
+        //         })
+        //     },
+        //         (error) => {
+        //             this.setState({
+        //                 isLoaded: true,
+        //                 error
+        //             })
+        //         })
     }
 
     render() {
