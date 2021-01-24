@@ -69,7 +69,6 @@ class Table extends React.Component {
                 })
     }
 
-
     render() {
         const { error, isLoaded, members } = this.state;
         if (error) {
