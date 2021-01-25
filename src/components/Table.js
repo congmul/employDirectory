@@ -1,15 +1,7 @@
 import React from 'react';
 import API from "../utils/API";
 import "./Table.css";
-
-// function sortingFunc(props) {
-//     console.log("In sorting Func");
-//     console.log(props.members);
-//     let sortedArr = [...props.members]
-//     console.log("In Sorted Arr");
-//     console.log(sortedArr.sort((a, b) => (a.name.first > b.name.first) ? 1 : -1));
-//     // this.setState({members : sortedArr});
-// }
+import Search from './Search'
 
 const TableHeader = (props, sortingFunc) => {
     console.log("In Table Header");
@@ -24,19 +16,9 @@ const TableHeader = (props, sortingFunc) => {
                 {
                     
                     (props.sortingOrder === "descending") ? 
-                    <th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name <i class="bi bi-caret-down-fill"></i></th> : 
-                    ((props.sortingOrder === "ascending") ? <th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name <i class="bi bi-caret-up-fill"></i></th> : 
+                    <th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name <i className="bi bi-caret-down-fill"></i></th> : 
+                    ((props.sortingOrder === "ascending") ? <th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name <i className="bi bi-caret-up-fill"></i></th> : 
                     <th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name </th> )
-                    // ({porps.sortingOrder} === "descending" ? (<th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name <i class="bi bi-arrow-down"></i></th>) :{ porps.sortingOrder} === "ascending" ? (<th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name <i class="bi bi-arrow-up"></i></th>) : (<th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name </th>))
-                } 
-                {
-                    // if(porps.sortingOrder === "descending"){
-                    //     (<th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name <i class="bi bi-arrow-down"></i></th>)
-                    // }else if(porps.sortingOrder === "ascending"){
-                    //     (<th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name <i class="bi bi-arrow-up"></i></th>)
-                    // }else{
-                    //     (<th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name </th>)
-                    // }
                 }
                 <th value="phone" >Phone</th>
                 <th value="email" >Email</th>
@@ -49,7 +31,6 @@ const TableHeader = (props, sortingFunc) => {
 const TableBody = (props) => {
     console.log("props in Table Body");
     console.log(props.members);
-    // props.members.map(object => console.log(object))
     
     return (
         <tbody>
@@ -86,7 +67,8 @@ class Table extends React.Component {
                 console.log(res.data.results);
                 this.setState({
                     isLoaded: true,
-                    members: res.data.results
+                    members: res.data.results,
+                    searchmember: res.data.results
                 })
             })
             .catch(err => {
@@ -115,6 +97,19 @@ class Table extends React.Component {
         //         })
     }
 
+    handleInputChange = event => {
+        const name = event.target.name;
+        const value = event.target.value;
+        console.log("this.state.members");
+        console.log(this.state.members);
+        console.log("this.state.searchmember");
+        console.log(this.state.searchmember);
+        let members = [...this.state.searchmember];
+        this.setState({
+          [name]: members.filter(member => member.name.first.toLowerCase().includes(value.toLowerCase()))
+        });
+      };
+
     sortingFunc(props) {
         console.log("In sorting Func");
         console.log(props.members);
@@ -125,17 +120,17 @@ class Table extends React.Component {
             this.setState({sortingOrder: "ascending"});
             console.log("ascending")
             console.log(sortedArr.sort((a, b) => (a.name.first > b.name.first) ? 1 : -1));
-            this.setState({members: sortedArr});
+            this.setState({members: sortedArr, searchmember: sortedArr});
         }else if(props.sortingOrder === "ascending"){
             this.setState({sortingOrder: "descending"});
             console.log("descending")
             console.log(sortedArr.sort((a, b) => (a.name.first > b.name.first) ? -1 : 1));
-            this.setState({members: sortedArr});
+            this.setState({members: sortedArr, searchmember: sortedArr});
         }else{
             this.setState({sortingOrder: "ascending"});
             console.log("ascending")
             console.log(sortedArr.sort((a, b) => (a.name.first > b.name.first) ? 1 : -1));
-            this.setState({members: sortedArr});
+            this.setState({members: sortedArr, searchmember: sortedArr});
         }
     }
 
@@ -149,10 +144,16 @@ class Table extends React.Component {
             console.log("members in Table render()")
             console.log(members);
             return (
+                <>
+                <Search 
+                value={this.state.search}
+                handleInputChange={this.handleInputChange}
+                />
                 <table className="table table-hover" style={{ "textAlign": "center" }}>
                     <TableHeader members={members} sortingFunc = {this.sortingFunc} sortingOrder = {this.state.sortingOrder}/>
                     <TableBody members={members} />
                 </table>
+                </>
             )
         }
     }
