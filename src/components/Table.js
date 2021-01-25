@@ -99,14 +99,15 @@ class Table extends React.Component {
 
     handleInputChange = event => {
         const name = event.target.name;
-        const value = event.target.value;
+        const value = event.target.value.trim();
+        console.log(value);
         console.log("this.state.members");
         console.log(this.state.members);
         console.log("this.state.searchmember");
         console.log(this.state.searchmember);
         let members = [...this.state.searchmember];
         this.setState({
-          [name]: members.filter(member => member.name.first.toLowerCase().includes(value.toLowerCase()))
+          [name]: members.filter(member => (member.name.first +" "+ member.name.last).toLowerCase().includes(value.toLowerCase()))
         });
       };
 
