@@ -1,29 +1,37 @@
 import React from 'react';
 import API from "../utils/API";
+import "./Table.css";
 
-function sortingFunc(props) {
+// function sortingFunc(props) {
+//     console.log("In sorting Func");
+//     console.log(props.members);
+//     let sortedArr = [...props.members]
+//     console.log("In Sorted Arr");
+//     console.log(sortedArr.sort((a, b) => (a.name.first > b.name.first) ? 1 : -1));
+//     // this.setState({members : sortedArr});
+// }
+
+const TableHeader = (props, sortingFunc) => {
+    console.log("In Table Header");
     console.log(props.members);
-    console.log(props.members.sort((a, b) => (a.email > b.email) ? 1 : -1));
-}
+    console.log(props);
 
-
-const TableHeader = (props) => {
     return (
         <thead style={{ fontWeight: "700" }}>
             <tr>
                 <th>Image</th>
-                <th><button onClick={ () => sortingFunc(props) }>Name</button></th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>DOB</th>
+                <th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name</th>
+                <th className="hover" value="phone" >Phone</th>
+                <th className="hover" value="email" >Email</th>
+                <th className="hover" value="dob" >DOB</th>
             </tr>
         </thead>
     )
 }
 
 const TableBody = (props) => {
-    // console.log("props in Table Body");
-    // console.log(props.members);
+    console.log("props in Table Body");
+    console.log(props.members);
     // props.members.map(object => console.log(object))
     
     return (
@@ -52,6 +60,7 @@ class Table extends React.Component {
     }
 
     componentDidMount() {
+        // API of Axios
         API.search()
             .then(res => {
                 console.log("Axios"); 
@@ -87,6 +96,15 @@ class Table extends React.Component {
         //         })
     }
 
+    sortingFunc(props) {
+        console.log("In sorting Func");
+        console.log(props.members);
+        let sortedArr = [...props.members]
+        console.log("In Sorted Arr");
+        console.log(sortedArr.sort((a, b) => (a.name.first > b.name.first) ? 1 : -1));
+        // this.setState({members: sortedArr});
+    }
+
     render() {
         const { error, isLoaded, members } = this.state;
         if (error) {
@@ -98,7 +116,7 @@ class Table extends React.Component {
             console.log(members);
             return (
                 <table className="table table-hover" style={{ "textAlign": "center" }}>
-                    <TableHeader members={members} />
+                    <TableHeader members={members} sortingFunc = {this.sortingFunc}/>
                     <TableBody members={members} />
                 </table>
             )
