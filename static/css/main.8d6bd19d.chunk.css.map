@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/components/Table.css","webpack://src/Index.css"],"names":[],"mappings":"AAAA,aACI,UAAU,CACV,cACJ,CCHA,MACI,qCACJ","file":"main.8d6bd19d.chunk.css","sourcesContent":[".hover:hover {\n    color:grey;\n    cursor: pointer;\n}","#root {\n    font-family: 'Cinzel Decorative', serif;\n}"]}
