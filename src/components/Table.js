@@ -20,10 +20,27 @@ const TableHeader = (props, sortingFunc) => {
         <thead style={{ fontWeight: "700" }}>
             <tr>
                 <th>Image</th>
-                <th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name</th>
-                <th className="hover" value="phone" >Phone</th>
-                <th className="hover" value="email" >Email</th>
-                <th className="hover" value="dob" >DOB</th>
+                {console.log(props.sortingOrder)}
+                {
+                    
+                    (props.sortingOrder === "descending") ? 
+                    <th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name <i class="bi bi-caret-down-fill"></i></th> : 
+                    ((props.sortingOrder === "ascending") ? <th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name <i class="bi bi-caret-up-fill"></i></th> : 
+                    <th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name </th> )
+                    // ({porps.sortingOrder} === "descending" ? (<th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name <i class="bi bi-arrow-down"></i></th>) :{ porps.sortingOrder} === "ascending" ? (<th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name <i class="bi bi-arrow-up"></i></th>) : (<th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name </th>))
+                } 
+                {
+                    // if(porps.sortingOrder === "descending"){
+                    //     (<th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name <i class="bi bi-arrow-down"></i></th>)
+                    // }else if(porps.sortingOrder === "ascending"){
+                    //     (<th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name <i class="bi bi-arrow-up"></i></th>)
+                    // }else{
+                    //     (<th className="hover" value="name" onClick={ () => props.sortingFunc(props) }>Name </th>)
+                    // }
+                }
+                <th value="phone" >Phone</th>
+                <th value="email" >Email</th>
+                <th value="dob" >DOB</th>
             </tr>
         </thead>
     )
@@ -56,7 +73,7 @@ class Table extends React.Component {
             error: null,
             isLoaded: false,
             members: [],
-            sortingOrder: "descending" 
+            sortingOrder: "" 
         };
         this.sortingFunc = this.sortingFunc.bind(this);  // Bind function to Class ( It can make sortingFunc use setState )
     }
@@ -109,10 +126,15 @@ class Table extends React.Component {
             console.log("ascending")
             console.log(sortedArr.sort((a, b) => (a.name.first > b.name.first) ? 1 : -1));
             this.setState({members: sortedArr});
-        }else{
+        }else if(props.sortingOrder === "ascending"){
             this.setState({sortingOrder: "descending"});
             console.log("descending")
             console.log(sortedArr.sort((a, b) => (a.name.first > b.name.first) ? -1 : 1));
+            this.setState({members: sortedArr});
+        }else{
+            this.setState({sortingOrder: "ascending"});
+            console.log("ascending")
+            console.log(sortedArr.sort((a, b) => (a.name.first > b.name.first) ? 1 : -1));
             this.setState({members: sortedArr});
         }
     }
