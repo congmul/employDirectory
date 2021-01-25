@@ -55,7 +55,8 @@ class Table extends React.Component {
         this.state = {
             error: null,
             isLoaded: false,
-            members: []
+            members: [],
+            sortingOrder: "descending" 
         };
         this.sortingFunc = this.sortingFunc.bind(this);  // Bind function to Class ( It can make sortingFunc use setState )
     }
@@ -100,10 +101,20 @@ class Table extends React.Component {
     sortingFunc(props) {
         console.log("In sorting Func");
         console.log(props.members);
+        console.log(props.sortingOrder);
         let sortedArr = [...props.members]
         console.log("In Sorted Arr");
-        console.log(sortedArr.sort((a, b) => (a.name.first > b.name.first) ? 1 : -1));
-        this.setState({members: sortedArr});
+        if(props.sortingOrder === "descending"){
+            this.setState({sortingOrder: "ascending"});
+            console.log("ascending")
+            console.log(sortedArr.sort((a, b) => (a.name.first > b.name.first) ? 1 : -1));
+            this.setState({members: sortedArr});
+        }else{
+            this.setState({sortingOrder: "descending"});
+            console.log("descending")
+            console.log(sortedArr.sort((a, b) => (a.name.first > b.name.first) ? -1 : 1));
+            this.setState({members: sortedArr});
+        }
     }
 
     render() {
@@ -117,7 +128,7 @@ class Table extends React.Component {
             console.log(members);
             return (
                 <table className="table table-hover" style={{ "textAlign": "center" }}>
-                    <TableHeader members={members} sortingFunc = {this.sortingFunc}/>
+                    <TableHeader members={members} sortingFunc = {this.sortingFunc} sortingOrder = {this.state.sortingOrder}/>
                     <TableBody members={members} />
                 </table>
             )
