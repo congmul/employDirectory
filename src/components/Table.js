@@ -57,6 +57,7 @@ class Table extends React.Component {
             isLoaded: false,
             members: []
         };
+        this.sortingFunc = this.sortingFunc.bind(this);  // Bind function to Class ( It can make sortingFunc use setState )
     }
 
     componentDidMount() {
@@ -102,7 +103,7 @@ class Table extends React.Component {
         let sortedArr = [...props.members]
         console.log("In Sorted Arr");
         console.log(sortedArr.sort((a, b) => (a.name.first > b.name.first) ? 1 : -1));
-        // this.setState({members: sortedArr});
+        this.setState({members: sortedArr});
     }
 
     render() {
