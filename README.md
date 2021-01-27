@@ -22,8 +22,16 @@ Deploy: https://congmul.github.io/employeedirectory/ <br>
 To install necessary dependencies, run the following command:
 node server.js
 
-## Test 
-none
+## Frontend
+React.js
+React-dom
+Axios
+BootStrap
+React-BootStarp
+BootStrap-icons
+
+## Backend
+None
 
 ## Contributoring
 Contact me by email : congmul@hotmail.com <br>
