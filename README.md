@@ -23,12 +23,12 @@ To install necessary dependencies, run the following command:
 node server.js
 
 ## Frontend
-React.js
-React-dom
-Axios
-BootStrap
-React-BootStarp
-BootStrap-icons
+* React.js
+* React-dom
+* Axios
+* BootStrap
+* React-BootStarp
+* BootStrap-icons
 
 ## Backend
 None
