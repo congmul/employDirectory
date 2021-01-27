@@ -16,7 +16,7 @@ npm i to set environment <br>
 
 Deploy: https://congmul.github.io/employeedirectory/ <br>
 
-<img src = "./public/img/operatingApp.gif" width="800">
+<img src = "./public/img/operatingApp02.gif" width="800">
 
 ## Installation 
 To install necessary dependencies, run the following command:
