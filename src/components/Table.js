@@ -5,9 +5,9 @@ import Search from './Search'
 import { Modal, Button } from 'react-bootstrap';
 
 const TableHeader = (props, sortingFunc) => {
-    console.log("In Table Header");
-    console.log(props.members);
-    console.log(props);
+    // console.log("In Table Header");
+    // console.log(props.members);
+    // console.log(props);
 
     return (
         <thead style={{ fontWeight: "700" }}>
@@ -60,23 +60,23 @@ const TableBody = (props) => {
 
     const handleClose = () => setShow(false);
     const handleClick = (e) => {
-        console.log(e.target.attributes.memberid.nodeValue);
+        // console.log(e.target.attributes.memberid.nodeValue);
         let id = e.target.attributes.memberid.nodeValue;
         let aMember = [...props.members];
         let newMember = aMember.filter(member => member.id.value === id);
         // console.log(aMember);
-        console.log("================= In Func data ==========================");
-        console.log(newMember[0]);
+        // console.log("================= In Func data ==========================");
+        // console.log(newMember[0]);
         setMemberSelected({...newMember[0]});
         handleShow()
     } 
     const handleShow = () => {
-        console.log("=============== In State data ==========================");
-        console.log(memberSelected);
+        // console.log("=============== In State data ==========================");
+        // console.log(memberSelected);
         setShow(true);
     }
-    console.log("=============== Out side==========================");
-    console.log(memberSelected);
+    // console.log("=============== Out side==========================");
+    // console.log(memberSelected);
     return (
         <tbody>
             {props.members.map(object =>
@@ -132,10 +132,12 @@ class Table extends React.Component {
         // API of Axios
         API.search()
             .then(res => {
-                console.log("Axios");
-                console.log(res.data.results);
+                // console.log("Axios");
+                // console.log(res.data.results);
                 this.setState({
                     isLoaded: true,
+                    originalMembers: res.data.results,
+                    sortingMember: res.data.results,
                     members: res.data.results,
                     searchmember: res.data.results
                 })
@@ -169,38 +171,47 @@ class Table extends React.Component {
     handleInputChange = event => {
         const name = event.target.name;
         const value = event.target.value.trim();
-        console.log(value);
-        console.log("this.state.members");
-        console.log(this.state.members);
-        console.log("this.state.searchmember");
-        console.log(this.state.searchmember);
-        let members = [...this.state.searchmember];
+        // console.log(value);
+        // console.log("this.state.members");
+        // console.log(this.state.members);
+        // console.log("this.state.searchmember");
+        // console.log(this.state.searchmember);
+        let members;
+        // if(value===""){
+            members = [...this.state.originalMembers];
+        // }else{
+        //     members = [...this.state.searchmember];
+        // }
         this.setState({
             [name]: members.filter(member => (member.name.first + " " + member.name.last).toLowerCase().includes(value.toLowerCase()))
         });
     };
 
     sortingFunc(props) {
-        console.log("In sorting Func");
-        console.log(props.members);
-        console.log(props.sortingOrder);
+        // console.log("In sorting Func");
+        // console.log(props.members);
+        // console.log(props.sortingOrder);
         let sortedArr = [...props.members]
-        console.log("In Sorted Arr");
+        let originalData = [...props.members]
+        // console.log("In Sorted Arr");
         if (props.sortingOrder === "descending") {
             this.setState({ sortingOrder: "ascending" });
             console.log("ascending")
             console.log(sortedArr.sort((a, b) => (a.name.first > b.name.first) ? 1 : -1));
-            this.setState({ members: sortedArr, searchmember: sortedArr });
+            originalData.sort((a, b) => (a.name.first > b.name.first) ? 1 : -1);
+            this.setState({ members: originalData, searchmember: sortedArr });
         } else if (props.sortingOrder === "ascending") {
             this.setState({ sortingOrder: "descending" });
             console.log("descending")
             console.log(sortedArr.sort((a, b) => (a.name.first > b.name.first) ? -1 : 1));
-            this.setState({ members: sortedArr, searchmember: sortedArr });
+            originalData.sort((a, b) => (a.name.first > b.name.first) ? -1 : 1);
+            this.setState({ members: originalData, searchmember: sortedArr });
         } else {
             this.setState({ sortingOrder: "ascending" });
             console.log("ascending")
             console.log(sortedArr.sort((a, b) => (a.name.first > b.name.first) ? 1 : -1));
-            this.setState({ members: sortedArr, searchmember: sortedArr });
+            originalData.sort((a, b) => (a.name.first > b.name.first) ? 1 : -1);
+            this.setState({ members: originalData, searchmember: sortedArr });
         }
     }
 
@@ -211,8 +222,8 @@ class Table extends React.Component {
         } else if (!isLoaded) {
             return <div>Loading...</div>;
         } else {
-            console.log("members in Table render()")
-            console.log(members);
+            // console.log("members in Table render()")
+            // console.log(members);
             return (
                 <>
                     <Search
